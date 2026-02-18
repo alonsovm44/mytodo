@@ -1,9 +1,6 @@
-
-        std::ofstream file("todo.txt", std::ios::out | std::ios::trunc);
-        if (!file.is_open()) {
+        std::ofstream file("todo.txt");
+        if (!file) {
             std::cerr << "Error: Could not create todo.txt" << std::endl;
             return 1;
         }
         file.close();
-        std::cout << "Initialized empty todo list." << std::endl;
-

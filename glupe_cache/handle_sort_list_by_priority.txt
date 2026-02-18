@@ -1,0 +1,22 @@
+            auto tasks = getTaskList();
+            std::vector<std::pair<std::string, std::string>> prioritizedTasks;
+            for (const auto& task : tasks) {
+                size_t commaPos = task.find_last_of(',');
+                if (commaPos != std::string::npos) {
+                    std::string priority = task.substr(commaPos + 2);
+                    prioritizedTasks.emplace_back(priority, task.substr(0, commaPos));
+                } else {
+                    prioritizedTasks.emplace_back("", task);
+                }
+            }
+            std::sort(prioritizedTasks.begin(), prioritizedTasks.end(), [](const auto& a, const auto& b) {
+                if (a.first == "") return false;
+                if (b.first == "") return true;
+                // Sort order: T (top), H (high), M (medium), L (low)
+                return a.first > b.first;
+            });
+            int count = 1;
+            for (const auto& task : prioritizedTasks) {
+                std::cout << count << ". " << task.second << "\n";
+                count++;
+            }

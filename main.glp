@@ -37,6 +37,14 @@ int main(int argc, char* argv[]) {
             Handle errors if file cannot be created.
         }$$     } 
     else if (command == "show") {
+        std::string cmd2 = argv[2];
+        if cmd2 == "pr"{
+            $$ handle_sort_list_by_priority {
+                list<tag, priority> = get_tasklist()
+                sort_by_priority(list)
+                PRINT list
+            }$$
+        }
         $$ handle_show {
             Read "todo.txt".
             If empty, print "List is empty".
@@ -50,6 +58,18 @@ int main(int argc, char* argv[]) {
             If yes, print warning.
             If no, append to file.
         }$$     } 
+    else if (command == "pr"){
+        int task_number = std::stoi(argv[2]);
+        std::string priority_value = argv[3]; //low(WHITE), medium (YELLOW), high(ORANGE), top(RED) 
+        //cmd is this: $ mytodo pr 12 medium 
+        $$ priorities_handler {
+        if priority is low, append (", L") to line task_number and color task_number line with white
+        if priority is medium, append (", M") to line task_number and color task_number line with yellow
+        if priority is high, append (", H") to line task_number and color task_number line with orange
+        if priority is top, append (", T") to line task_number and color task_number line with red
+    
+        }$$
+    }
     else if (command == "done") {
         if (argc < 3) { std::cout << "Error: Missing task number." << std::endl; return 1; }
         $$ handle_done {

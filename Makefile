@@ -1,18 +1,9 @@
 # GLUPE_BLOCK_START: Makecmd
+all: mytodo
 
-# Target name: mytodo
-# Compile main.cpp with g++ -std=c++17 -static
-
-CXX = g++
-CXXFLAGS = -std=c++17 -static
-TARGET = mytodo
-
-all: $(TARGET)
-
-$(TARGET): main.cpp
-	$(CXX) $(CXXFLAGS) main.cpp -o $(TARGET)
+mytodo: main.cpp
+	g++ -std=c++17 -static -o mytodo main.cpp
 
 clean:
-	rm -f $(TARGET)
-
+	rm -f mytodo todo.txt
 # GLUPE_BLOCK_END: Makecmd

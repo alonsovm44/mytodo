@@ -1,23 +1,10 @@
-
-        std::ifstream file("todo.txt");
-        if (!file.is_open()) {
-            std::cerr << "Error: Could not open todo.txt" << std::endl;
-            return 1;
-        }
-
-        std::vector<std::string> tasks;
-        std::string line;
-        while (std::getline(file, line)) {
-            if (!line.empty())
-                tasks.push_back(line);
-        }
-        file.close();
-
-        if (tasks.empty()) {
-            std::cout << "List is empty" << std::endl;
-        } else {
-            for (size_t i = 0; i < tasks.size(); ++i) {
-                std::cout << (i + 1) << ". " << tasks[i] << std::endl;
+            auto tasks = getTaskList();
+            if (tasks.empty()) {
+                std::cout << "List is empty" << std::endl;
+            } else {
+                int count = 1;
+                for (const auto& task : tasks) {
+                    std::cout << count << ". " << task << "\n";
+                    count++;
+                }
             }
-        }
-

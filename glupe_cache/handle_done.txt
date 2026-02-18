@@ -1,37 +1,8 @@
-
-        int taskNum = std::stoi(argv[2]);
-
-        std::ifstream infile("todo.txt");
-        if (!infile.is_open()) {
-            std::cerr << "Error: Could not open todo.txt" << std::endl;
+        int taskNum = std::stoi(argv[2]) - 1;
+        auto tasks = getTaskList();
+        if (taskNum < 0 || taskNum >= tasks.size()) {
+            std::cout << "Error: Invalid task number." << std::endl;
             return 1;
         }
-
-        std::vector<std::string> tasks;
-        std::string line;
-        while (std::getline(infile, line)) {
-            if (!line.empty())
-                tasks.push_back(line);
-        }
-        infile.close();
-
-        if (taskNum < 1 || taskNum > (int)tasks.size()) {
-            std::cerr << "Error: Invalid task number." << std::endl;
-            return 1;
-        }
-
-        tasks.erase(tasks.begin() + (taskNum - 1));
-
-        std::ofstream outfile("todo.txt", std::ios::out | std::ios::trunc);
-        if (!outfile.is_open()) {
-            std::cerr << "Error: Could not write to todo.txt" << std::endl;
-            return 1;
-        }
-
-        for (const auto& t : tasks) {
-            outfile << t << std::endl;
-        }
-        outfile.close();
-
-        std::cout << "Marked task " << taskNum << " as done." << std::endl;
-
+        tasks.erase(tasks.begin() + taskNum);
+        saveTaskList(tasks);

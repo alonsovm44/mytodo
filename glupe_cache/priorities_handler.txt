@@ -1,0 +1,16 @@
+        auto tasks = getTaskList();
+        if (taskNum < 0 || taskNum >= tasks.size()) {
+            std::cout << "Error: Invalid task number." << std::endl;
+            return 1;
+        }
+        std::string priorityTag;
+        if (priority == "low") priorityTag = ", L";
+        else if (priority == "medium") priorityTag = ", M";
+        else if (priority == "high") priorityTag = ", H";
+        else if (priority == "top") priorityTag = ", T";
+        else {
+            std::cout << "Error: Invalid priority level." << std::endl;
+            return 1;
+        }
+        tasks[taskNum] += priorityTag;
+        saveTaskList(tasks);
