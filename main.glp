@@ -1,0 +1,75 @@
+META_START
+{
+    "name": "mytodo",
+    "version": "0.0.1",
+    "author": "user",
+    "intent": "A robust CLI todo list in C++",
+    "tags": ["cli", "productivity"],
+    "license": "MIT"
+}
+META_END
+
+EXPORT: "main.cpp"
+
+ $$ABSTRACT libs {
+    Include iostream, fstream, string, vector, cstdlib, algorithm
+}$$ 
+// Helper function declarations (Good practice)
+void initTodo();
+void showTodo();
+void addTodo(const std::string& task);
+void doneTodo(int taskNum);
+
+std::string VERSA_VERSION = "0.0.1";
+
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        std::cout << "Usage: mytodo <command> [args]" << std::endl;
+        std::cout << "commands: init, show, add, done" << std::endl;
+        return 1;
+    }
+
+    std::string command = argv[1];
+
+    if (command == "init") {
+        $$ handle_init {
+            Create "todo.txt" in the current working directory.
+            Handle errors if file cannot be created.
+        }$$     } 
+    else if (command == "show") {
+        $$ handle_show {
+            Read "todo.txt".
+            If empty, print "List is empty".
+            Otherwise, print lines with numbers (1. Task).
+        }$$     } 
+    else if (command == "add") {
+        if (argc < 3) { std::cout << "Error: Missing task name." << std::endl; return 1; }
+        $$ handle_add {
+            Get task name from argv[2].
+            Check if task already exists in file.
+            If yes, print warning.
+            If no, append to file.
+        }$$     } 
+    else if (command == "done") {
+        if (argc < 3) { std::cout << "Error: Missing task number." << std::endl; return 1; }
+        $$ handle_done {
+            Get line number from argv[2].
+            Remove that line from the file.
+            Rewrite the file.
+        }$$     } 
+    else if (command == "-v" || command == "--version") {
+        std::cout << "mytodo version " << VERSA_VERSION << std::endl;
+    }else {
+        std::cout << "Unknown command." << std::endl;
+    }
+
+    return 0;
+}
+
+EXPORT: END
+
+EXPORT: "Makefile"
+ $$ Makecmd {
+    Target name: mytodo
+    Compile main.cpp with g++ -std=c++17 -static
+}$$ EXPORT: END

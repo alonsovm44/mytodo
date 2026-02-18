@@ -1,0 +1,32 @@
+
+        std::string task = argv[2];
+
+        std::ifstream infile("todo.txt");
+        if (!infile.is_open()) {
+            std::cerr << "Error: Could not open todo.txt" << std::endl;
+            return 1;
+        }
+
+        std::string line;
+        bool exists = false;
+        while (std::getline(infile, line)) {
+            if (line == task) {
+                exists = true;
+                break;
+            }
+        }
+        infile.close();
+
+        if (exists) {
+            std::cout << "Warning: Task already exists." << std::endl;
+        } else {
+            std::ofstream outfile("todo.txt", std::ios::app);
+            if (!outfile.is_open()) {
+                std::cerr << "Error: Could not write to todo.txt" << std::endl;
+                return 1;
+            }
+            outfile << task << std::endl;
+            outfile.close();
+            std::cout << "Added task: " << task << std::endl;
+        }
+
