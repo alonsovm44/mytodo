@@ -1,7 +1,7 @@
 META_START
 {
     "name": "mytodo",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": "user",
     "intent": "A robust CLI todo list in C++",
     "tags": ["cli", "productivity"],
@@ -20,7 +20,7 @@ void showTodo();
 void addTodo(const std::string& task);
 void doneTodo(int taskNum);
 
-std::string VERSA_VERSION = "0.0.1";
+std::string VERSA_VERSION = "0.0.2";
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
